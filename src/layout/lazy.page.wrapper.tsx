@@ -1,5 +1,5 @@
-import { Spinner } from "@nextui-org/react";
-import React, { Suspense } from "react";
+import { Spinner } from '@nextui-org/react';
+import React, { Suspense } from 'react';
 
 interface ILazyPageWrapper {
   component: React.ReactElement;
@@ -16,7 +16,7 @@ const LazyPageWrapper = ({ component }: ILazyPageWrapper) => {
               alt="logo"
               className="w-[8rem] h-auto "
             />
-            {/* <p className="text-sm">Augwell Technologies</p> */}
+            {/* <p className="text-sm">Project Broadcast</p> */}
             <Spinner size="sm" color="current" />
           </div>
         </div>
