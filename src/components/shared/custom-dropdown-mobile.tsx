@@ -7,6 +7,7 @@ interface SubItem {
   title: string;
   icon: string;
   link: string;
+  description?: string;
 }
 
 interface MenuItem {
@@ -58,21 +59,35 @@ const CustomMobileDropdown = ({
                   setIsOpen(false);
                   closeMenu();
                 }}
-                className="flex items-center justify-between gap-3"
+                className="flex items-center gap-3 p-3 hover:bg-slate-50 rounded-lg transition-all"
               >
-                <p>
-                  {/* <img
-                  src={subItem.icon}
-                  alt={subItem.title}
-                  className="w-6 h-6 object-contain"
-                /> */}
-                  <span className="text-sm font-medium text-black hover:text-gray-600">
-                    {subItem.title}
-                  </span>
-                </p>
-                <p>
-                  <Icon icon="mdi:chevron-right" />
-                </p>
+                <div
+                  className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                    subItem.title.includes('WhatsApp')
+                      ? 'bg-green-100'
+                      : subItem.title.includes('SMS')
+                      ? 'bg-blue-100'
+                      : 'bg-purple-100'
+                  }`}
+                >
+                  <Icon
+                    icon={subItem.icon}
+                    className={`w-5 h-5 ${
+                      subItem.title.includes('WhatsApp')
+                        ? 'text-green-600'
+                        : subItem.title.includes('SMS')
+                        ? 'text-blue-600'
+                        : 'text-purple-600'
+                    }`}
+                  />
+                </div>
+                <span className="text-sm font-medium text-slate-900 flex-1">
+                  {subItem.title}
+                </span>
+                <Icon
+                  icon="mdi:chevron-right"
+                  className="w-4 h-4 text-slate-400"
+                />
               </Link>
             ))}
           </motion.div>

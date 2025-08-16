@@ -88,16 +88,16 @@ export default function NavbarComponent() {
         <NavbarContent justify="end" className="hidden lg:flex">
           <NavbarItem className=" gap-2 items-center hidden lg:flex">
             <CustomButton
-              onClick={() => navigate('/contact')}
+              onClick={() => navigate('/docs')}
               className="border text-secondary border-secondary "
             >
-              Contact Us
+              Documentation
             </CustomButton>
             <CustomButton
-              onClick={() => navigate('/contact')}
+              onClick={() => navigate('/signup')}
               className="bg-secondary text-white"
             >
-              Login
+              Sign Up Free
             </CustomButton>
           </NavbarItem>
         </NavbarContent>
@@ -108,7 +108,7 @@ export default function NavbarComponent() {
               <CustomMobileDropdown
                 closeMenu={() => setIsMenuOpen(false)}
                 key={index}
-                item={item}
+                item={{ ...item, subItems: item.subitems }}
               />
             ) : (
               <NavbarMenuItem key={`${item}-${index}`}>
@@ -130,19 +130,19 @@ export default function NavbarComponent() {
           )}
           <div className="flex md:gap-x-4 flex-col gap-4">
             <CustomButton
-              onClick={() => navigate('/contact')}
+              onClick={() => navigate('/docs')}
               className="border text-secondary border-secondary "
             >
-              Contact Us
+              Documentation
             </CustomButton>
             <CustomButton
               onClick={() => {
-                navigate('/contact');
+                navigate('/signup');
                 setIsMenuOpen(false);
               }}
               className="bg-secondary text-white"
             >
-              Login
+              Sign Up Free
             </CustomButton>
           </div>
         </NavbarMenu>
@@ -152,18 +152,37 @@ export default function NavbarComponent() {
 }
 
 const menuItems = [
-  // {
-  //   link: '/',
-  //   title: 'Home',
-  // },
   {
-    link: '/products',
-    title: 'Products',
-    subitems: [],
+    link: '/',
+    title: 'Home',
   },
   {
-    link: '/solution',
-    title: 'Solution',
+    link: '/api',
+    title: 'APIs',
+    subitems: [
+      {
+        title: 'WhatsApp API',
+        link: '/api/whatsapp',
+        icon: 'mdi:whatsapp',
+        description: 'Send WhatsApp messages',
+      },
+      {
+        title: 'SMS API',
+        link: '/api/sms',
+        icon: 'mdi:message-text',
+        description: 'Send SMS messages',
+      },
+      {
+        title: 'Email API',
+        link: '/api/email',
+        icon: 'mdi:email',
+        description: 'Send emails',
+      },
+    ],
+  },
+  {
+    link: '/web-interface',
+    title: 'Web Interface',
     subitems: [],
   },
   {
@@ -172,8 +191,8 @@ const menuItems = [
     subitems: [],
   },
   {
-    link: '/resources',
-    title: 'Resources',
+    link: '/docs',
+    title: 'Documentation',
     subitems: [],
   },
 ];
