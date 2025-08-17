@@ -1,13 +1,13 @@
 import { motion } from 'framer-motion';
 import { Icon } from '@iconify/react';
-import { 
-  Card, 
-  CardBody, 
-  CardHeader, 
-  Button, 
-  Input, 
-  Textarea, 
-  Select, 
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Button,
+  Input,
+  Textarea,
+  Select,
   SelectItem,
   Chip,
   Table,
@@ -24,7 +24,7 @@ import {
   useDisclosure,
   Switch,
   Divider,
-  Progress
+  Progress,
 } from '@nextui-org/react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -40,7 +40,9 @@ const campaignSchema = z.object({
   }),
   message: z.string().min(1, 'Message content is required'),
   subject: z.string().optional(),
-  targetAudience: z.array(z.string()).min(1, 'Please select at least one audience'),
+  targetAudience: z
+    .array(z.string())
+    .min(1, 'Please select at least one audience'),
   scheduledDate: z.string().optional(),
   isScheduled: z.boolean().default(false),
 });
@@ -68,7 +70,9 @@ interface Campaign {
 
 const Campaigns = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(null);
+  const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(
+    null,
+  );
   const [isEditMode, setIsEditMode] = useState(false);
   const [isScheduled, setIsScheduled] = useState(false);
 
@@ -96,7 +100,8 @@ const Campaigns = () => {
       name: 'Order Confirmation',
       description: 'Confirm orders via WhatsApp',
       channel: 'whatsapp',
-      message: 'Your order #12345 has been confirmed and will be shipped today.',
+      message:
+        'Your order #12345 has been confirmed and will be shipped today.',
       targetAudience: ['Recent Customers'],
       status: 'sending',
       progress: 75,
@@ -196,7 +201,7 @@ const Campaigns = () => {
 
   const handleDeleteCampaign = (campaignId: string) => {
     if (confirm('Are you sure you want to delete this campaign?')) {
-      setCampaigns(campaigns.filter(c => c.id !== campaignId));
+      setCampaigns(campaigns.filter((c) => c.id !== campaignId));
       toast.success('Campaign deleted successfully');
     }
   };
@@ -204,11 +209,13 @@ const Campaigns = () => {
   const onSubmit = (data: CampaignFormData) => {
     if (isEditMode && selectedCampaign) {
       // Edit existing campaign
-      setCampaigns(campaigns.map(c => 
-        c.id === selectedCampaign.id 
-          ? { ...c, ...data, updatedAt: new Date().toISOString() }
-          : c
-      ));
+      setCampaigns(
+        campaigns.map((c) =>
+          c.id === selectedCampaign.id
+            ? { ...c, ...data, updatedAt: new Date().toISOString() }
+            : c,
+        ),
+      );
       toast.success('Campaign updated successfully');
     } else {
       // Create new campaign
@@ -226,7 +233,7 @@ const Campaigns = () => {
       setCampaigns([...campaigns, newCampaign]);
       toast.success('Campaign created successfully');
     }
-    
+
     onClose();
     reset();
   };
@@ -269,9 +276,11 @@ const Campaigns = () => {
       >
         <div>
           <h1 className="text-2xl font-bold text-slate-900">Campaigns</h1>
-          <p className="text-slate-600">Create and manage your messaging campaigns</p>
+          <p className="text-slate-600">
+            Create and manage your messaging campaigns
+          </p>
         </div>
-        
+
         <Button
           color="primary"
           startContent={<Icon icon="mdi:plus" className="w-4 h-4" />}
@@ -293,7 +302,7 @@ const Campaigns = () => {
               Your Campaigns ({campaigns.length})
             </h3>
           </CardHeader>
-          
+
           <CardBody>
             <Table aria-label="Campaigns table">
               <TableHeader>
@@ -309,20 +318,25 @@ const Campaigns = () => {
                   <TableRow key={campaign.id}>
                     <TableCell>
                       <div>
-                        <div className="font-medium text-slate-900">{campaign.name}</div>
+                        <div className="font-medium text-slate-900">
+                          {campaign.name}
+                        </div>
                         <div className="text-sm text-slate-500">
                           {campaign.description || 'No description'}
                         </div>
                         <div className="text-xs text-slate-400">
-                          Created {new Date(campaign.createdAt).toLocaleDateString()}
+                          Created{' '}
+                          {new Date(campaign.createdAt).toLocaleDateString()}
                         </div>
                       </div>
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <Icon 
-                          icon={getChannelIcon(campaign.channel)} 
-                          className={`w-5 h-5 ${getChannelColor(campaign.channel)}`} 
+                        <Icon
+                          icon={getChannelIcon(campaign.channel)}
+                          className={`w-5 h-5 ${getChannelColor(
+                            campaign.channel,
+                          )}`}
                         />
                         <span className="capitalize">{campaign.channel}</span>
                       </div>
@@ -351,7 +365,9 @@ const Campaigns = () => {
                     </TableCell>
                     <TableCell>
                       <div className="text-sm">
-                        <div className="font-medium">{campaign.totalRecipients}</div>
+                        <div className="font-medium">
+                          {campaign.totalRecipients}
+                        </div>
                         <div className="text-slate-500">
                           {campaign.deliveredCount} delivered
                         </div>
@@ -392,7 +408,7 @@ const Campaigns = () => {
               {isEditMode ? 'Edit Campaign' : 'Create New Campaign'}
             </h3>
           </ModalHeader>
-          
+
           <ModalBody>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               {/* Basic Info */}
@@ -405,7 +421,7 @@ const Campaigns = () => {
                   isInvalid={!!errors.name}
                   errorMessage={errors.name?.message}
                 />
-                
+
                 <Select
                   {...register('channel')}
                   label="Channel"
@@ -416,32 +432,41 @@ const Campaigns = () => {
                 >
                   <SelectItem key="sms" value="sms">
                     <div className="flex items-center gap-2">
-                      <Icon icon="mdi:message-text" className="w-4 h-4 text-blue-600" />
+                      <Icon
+                        icon="mdi:message-text"
+                        className="w-4 h-4 text-blue-600"
+                      />
                       SMS
                     </div>
                   </SelectItem>
                   <SelectItem key="email" value="email">
                     <div className="flex items-center gap-2">
-                      <Icon icon="mdi:email" className="w-4 h-4 text-purple-600" />
+                      <Icon
+                        icon="mdi:email"
+                        className="w-4 h-4 text-purple-600"
+                      />
                       Email
                     </div>
                   </SelectItem>
                   <SelectItem key="whatsapp" value="whatsapp">
                     <div className="flex items-center gap-2">
-                      <Icon icon="mdi:whatsapp" className="w-4 h-4 text-green-600" />
+                      <Icon
+                        icon="mdi:whatsapp"
+                        className="w-4 h-4 text-green-600"
+                      />
                       WhatsApp
                     </div>
                   </SelectItem>
                 </Select>
               </div>
-              
+
               <Input
                 {...register('description')}
                 label="Description"
                 placeholder="Enter campaign description (optional)"
                 variant="bordered"
               />
-              
+
               {/* Channel-specific fields */}
               {selectedChannel === 'email' && (
                 <Input
@@ -453,19 +478,28 @@ const Campaigns = () => {
                   errorMessage={errors.subject?.message}
                 />
               )}
-              
+
               <Textarea
                 {...register('message')}
                 label="Message Content"
-                placeholder={channelConfigs[selectedChannel as keyof typeof channelConfigs]?.placeholder || 'Enter your message'}
+                placeholder={
+                  channelConfigs[selectedChannel as keyof typeof channelConfigs]
+                    ?.placeholder || 'Enter your message'
+                }
                 variant="bordered"
                 minRows={4}
-                maxLength={channelConfigs[selectedChannel as keyof typeof channelConfigs]?.maxLength || 1000}
+                maxLength={
+                  channelConfigs[selectedChannel as keyof typeof channelConfigs]
+                    ?.maxLength || 1000
+                }
                 isInvalid={!!errors.message}
                 errorMessage={errors.message?.message}
-                description={`${watch('message')?.length || 0}/${channelConfigs[selectedChannel as keyof typeof channelConfigs]?.maxLength || 1000} characters`}
+                description={`${watch('message')?.length || 0}/${
+                  channelConfigs[selectedChannel as keyof typeof channelConfigs]
+                    ?.maxLength || 1000
+                } characters`}
               />
-              
+
               {/* Target Audience */}
               <Select
                 {...register('targetAudience')}
@@ -482,13 +516,15 @@ const Campaigns = () => {
                   </SelectItem>
                 ))}
               </Select>
-              
+
               <Divider />
-              
+
               {/* Scheduling */}
               <div className="flex items-center justify-between">
                 <div>
-                  <h4 className="font-medium text-slate-900">Schedule Campaign</h4>
+                  <h4 className="font-medium text-slate-900">
+                    Schedule Campaign
+                  </h4>
                   <p className="text-sm text-slate-600">
                     Send immediately or schedule for later
                   </p>
@@ -499,7 +535,7 @@ const Campaigns = () => {
                   color="primary"
                 />
               </div>
-              
+
               {isScheduled && (
                 <Input
                   {...register('scheduledDate')}
@@ -512,12 +548,12 @@ const Campaigns = () => {
               )}
             </form>
           </ModalBody>
-          
+
           <ModalFooter>
             <Button variant="bordered" onPress={onClose}>
               Cancel
             </Button>
-            <Button color="primary" onPress={handleSubmit(onSubmit)}>
+            <Button color="primary" onClick={handleSubmit(onSubmit)}>
               {isEditMode ? 'Update Campaign' : 'Create Campaign'}
             </Button>
           </ModalFooter>

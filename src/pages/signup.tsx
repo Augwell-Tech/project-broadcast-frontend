@@ -1,26 +1,21 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { motion } from 'framer-motion';
 import { Icon } from '@iconify/react';
-import { Card, CardBody, CardHeader, Input, Button } from '@nextui-org/react';
 import { useState, startTransition } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { Input } from '@nextui-org/react';
 
 const Signup = () => {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    name: '',
     email: '',
-    company: '',
-    phone: '',
-    useCase: '',
+    password: '',
+    confirmPassword: '',
   });
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-  ) => {
-    const { name, value } = e.target;
+  const handleInputChange = (name: string, value: string) => {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -29,7 +24,7 @@ const Signup = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    // setIsLoading(true); // This line is removed
 
     try {
       // Simulate API call - replace with actual backend endpoint
@@ -63,7 +58,7 @@ const Signup = () => {
       console.error('Signup error:', error);
       toast.error('Network error. Please check your connection.');
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false); // This line is removed
     }
   };
 
@@ -114,127 +109,76 @@ const Signup = () => {
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label
-                        htmlFor="firstName"
-                        className="block text-sm font-semibold text-slate-700 mb-2"
-                      >
-                        First Name *
-                      </label>
-                      <input
-                        type="text"
-                        id="firstName"
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                        placeholder="Enter your first name"
+                    <div className="space-y-3">
+                      <Input
+                        label="Full Name"
+                        placeholder="Enter your full name"
+                        value={formData.name}
+                        onChange={(e) =>
+                          handleInputChange('name', e.target.value)
+                        }
+                        variant="bordered"
+                        isRequired
+                        classNames={{
+                          input: 'text-slate-900',
+                          label: 'text-slate-700',
+                        }}
                       />
                     </div>
-                    <div>
-                      <label
-                        htmlFor="lastName"
-                        className="block text-sm font-semibold text-slate-700 mb-2"
-                      >
-                        Last Name *
-                      </label>
-                      <input
-                        type="text"
-                        id="lastName"
-                        name="lastName"
-                        value={formData.lastName}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                        placeholder="Enter your last name"
+                    <div className="space-y-3">
+                      <Input
+                        label="Email Address"
+                        type="email"
+                        placeholder="Enter your email address"
+                        value={formData.email}
+                        onChange={(e) =>
+                          handleInputChange('email', e.target.value)
+                        }
+                        variant="bordered"
+                        isRequired
+                        classNames={{
+                          input: 'text-slate-900',
+                          label: 'text-slate-700',
+                        }}
                       />
                     </div>
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="block text-sm font-semibold text-slate-700 mb-2"
-                    >
-                      Business Email *
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                      placeholder="your@company.com"
-                    />
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label
-                        htmlFor="company"
-                        className="block text-sm font-semibold text-slate-700 mb-2"
-                      >
-                        Company Name *
-                      </label>
-                      <input
-                        type="text"
-                        id="company"
-                        name="company"
-                        value={formData.company}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                        placeholder="Your company name"
+                    <div className="space-y-3">
+                      <Input
+                        label="Password"
+                        type="password"
+                        placeholder="Create a strong password"
+                        value={formData.password}
+                        onChange={(e) =>
+                          handleInputChange('password', e.target.value)
+                        }
+                        variant="bordered"
+                        isRequired
+                        classNames={{
+                          input: 'text-slate-900',
+                          label: 'text-slate-700',
+                        }}
                       />
                     </div>
-                    <div>
-                      <label
-                        htmlFor="phone"
-                        className="block text-sm font-semibold text-slate-700 mb-2"
-                      >
-                        Phone Number
-                      </label>
-                      <input
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                        placeholder="+1 (555) 123-4567"
+                    <div className="space-y-3">
+                      <Input
+                        label="Confirm Password"
+                        type="password"
+                        placeholder="Confirm your password"
+                        value={formData.confirmPassword}
+                        onChange={(e) =>
+                          handleInputChange('confirmPassword', e.target.value)
+                        }
+                        variant="bordered"
+                        isRequired
+                        classNames={{
+                          input: 'text-slate-900',
+                          label: 'text-slate-700',
+                        }}
                       />
                     </div>
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="useCase"
-                      className="block text-sm font-semibold text-slate-700 mb-2"
-                    >
-                      Primary Use Case *
-                    </label>
-                    <select
-                      id="useCase"
-                      name="useCase"
-                      value={formData.useCase}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                    >
-                      <option value="">Select your primary use case</option>
-                      <option value="customer-support">
-                        Customer Support & Notifications
-                      </option>
-                      <option value="marketing">Marketing Campaigns</option>
-                      <option value="ecommerce">
-                        E-commerce & Order Updates
-                      </option>
-                      <option value="app-integration">App Integration</option>
-                      <option value="other">Other</option>
-                    </select>
                   </div>
 
                   <button
