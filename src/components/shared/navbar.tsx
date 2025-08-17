@@ -7,7 +7,7 @@ import {
   NavbarMenu,
   NavbarMenuItem,
 } from '@nextui-org/react';
-import { useState } from 'react';
+import { useState, startTransition } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { CustomButton } from './shared_customs';
 import CustomeDropdownDesktop from './custom-dropdown-desktop';
@@ -17,6 +17,16 @@ export default function NavbarComponent() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navigate = useNavigate();
+
+  const handleNavigation = (path: string) => {
+    if (path.startsWith('/dashboard')) {
+      startTransition(() => {
+        navigate(path);
+      });
+    } else {
+      navigate(path);
+    }
+  };
 
   return (
     <>
@@ -88,13 +98,19 @@ export default function NavbarComponent() {
         <NavbarContent justify="end" className="hidden lg:flex">
           <NavbarItem className=" gap-2 items-center hidden lg:flex">
             <CustomButton
-              onClick={() => navigate('/docs')}
+              onClick={() => handleNavigation('/docs')}
               className="border text-secondary border-secondary "
             >
               Documentation
             </CustomButton>
+            {/* <CustomButton
+              onClick={() => handleNavigation('/login')}
+              className="border text-secondary border-secondary "
+            >
+              Login
+            </CustomButton> */}
             <CustomButton
-              onClick={() => navigate('/signup')}
+              onClick={() => handleNavigation('/signup')}
               className="bg-secondary text-white"
             >
               Sign Up Free
@@ -130,14 +146,23 @@ export default function NavbarComponent() {
           )}
           <div className="flex md:gap-x-4 flex-col gap-4">
             <CustomButton
-              onClick={() => navigate('/docs')}
+              onClick={() => handleNavigation('/docs')}
               className="border text-secondary border-secondary "
             >
               Documentation
             </CustomButton>
+            {/* <CustomButton
+              onClick={() => {
+                handleNavigation('/login');
+                setIsMenuOpen(false);
+              }}
+              className="border text-secondary border-secondary "
+            >
+              Login
+            </CustomButton> */}
             <CustomButton
               onClick={() => {
-                navigate('/signup');
+                handleNavigation('/signup');
                 setIsMenuOpen(false);
               }}
               className="bg-secondary text-white"
@@ -188,11 +213,16 @@ const menuItems = [
   {
     link: '/pricing',
     title: 'Pricing',
-    subitems: [],
+    // subitems: [],
   },
   {
     link: '/docs',
     title: 'Documentation',
-    subitems: [],
+    // subitems: [],
+  },
+  {
+    link: '/support',
+    title: 'Support',
+    // subitems: [],
   },
 ];

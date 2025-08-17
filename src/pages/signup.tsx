@@ -1,8 +1,13 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Icon } from '@iconify/react';
+import { Card, CardBody, CardHeader, Input, Button } from '@nextui-org/react';
+import { useState, startTransition } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const Signup = () => {
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -22,10 +27,44 @@ const Signup = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
+    setIsLoading(true);
+
+    try {
+      // Simulate API call - replace with actual backend endpoint
+      const response = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        // Store token in localStorage or state management
+        localStorage.setItem('authToken', result.token);
+        toast.success(
+          'Account created successfully! Redirecting to dashboard...',
+        );
+
+        // Redirect to dashboard after successful signup
+        setTimeout(() => {
+          startTransition(() => {
+            navigate('/dashboard');
+          });
+        }, 1500);
+      } else {
+        const error = await response.json();
+        toast.error(error.message || 'Signup failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Signup error:', error);
+      toast.error('Network error. Please check your connection.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -205,6 +244,15 @@ const Signup = () => {
                     Start Free Trial
                   </button>
                 </form>
+                <p className="text-sm text-slate-600 text-center mt-4">
+                  Already have an account?{' '}
+                  <Link
+                    to="/login"
+                    className="text-blue-600 hover:text-blue-700 font-semibold"
+                  >
+                    Sign in here
+                  </Link>
+                </p>
 
                 <div className="mt-8 pt-8 border-t border-slate-200">
                   <p className="text-sm text-slate-600 text-center">

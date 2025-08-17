@@ -1,7 +1,21 @@
 import { motion } from 'framer-motion';
 import { Icon } from '@iconify/react';
+import { startTransition } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const handleNavigation = (path: string) => {
+    if (path.startsWith('/dashboard')) {
+      startTransition(() => {
+        navigate(path);
+      });
+    } else {
+      navigate(path);
+    }
+  };
+
   return (
     <main className="min-h-screen">
       {/* Hero Section - Inspired by EngageLab */}
@@ -40,16 +54,16 @@ const Home = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
               <button
-                onClick={() => (window.location.href = '/signup')}
+                onClick={() => handleNavigation('/signup')}
                 className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-blue-600 hover:to-cyan-600 transition-all transform hover:scale-105 shadow-2xl"
               >
                 Get Started for Free
               </button>
               <button
-                onClick={() => (window.location.href = '/docs')}
+                onClick={() => handleNavigation('/pricing')}
                 className="border-2 border-white/30 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-white hover:text-slate-900 transition-all backdrop-blur-sm"
               >
-                Contact Us
+                View Pricing
               </button>
             </div>
 
@@ -543,7 +557,7 @@ const Home = () => {
                 ))}
               </ul>
               <button
-                onClick={() => (window.location.href = '/signup')}
+                onClick={() => handleNavigation('/signup')}
                 className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-3 rounded-xl font-semibold hover:from-blue-600 hover:to-cyan-600 transition-all"
               >
                 Start Free Trial
@@ -586,7 +600,7 @@ const Home = () => {
                 ))}
               </ul>
               <button
-                onClick={() => (window.location.href = '/signup')}
+                onClick={() => handleNavigation('/signup')}
                 className="w-full bg-white text-blue-600 py-3 rounded-xl font-semibold hover:bg-slate-100 transition-all"
               >
                 Start Free Trial
@@ -631,6 +645,21 @@ const Home = () => {
               </button>
             </motion.div>
           </div>
+
+          {/* View All Plans Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-center mt-12"
+          >
+            <button
+              onClick={() => handleNavigation('/pricing')}
+              className="bg-slate-900 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-slate-800 transition-all transform hover:scale-105 shadow-lg"
+            >
+              View All Plans & Features
+            </button>
+          </motion.div>
         </div>
       </section>
 
@@ -654,13 +683,16 @@ const Home = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
-                onClick={() => (window.location.href = '/signup')}
+                onClick={() => handleNavigation('/signup')}
                 className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-blue-600 hover:to-cyan-600 transition-all transform hover:scale-105 shadow-2xl"
               >
                 Get Started for Free
               </button>
-              <button className="border-2 border-white/30 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-white hover:text-slate-900 transition-all backdrop-blur-sm">
-                Contact Us
+              <button
+                onClick={() => handleNavigation('/support')}
+                className="border-2 border-white/30 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-white hover:text-slate-900 transition-all backdrop-blur-sm"
+              >
+                Contact Support
               </button>
             </div>
           </motion.div>

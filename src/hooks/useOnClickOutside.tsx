@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
 const useOnClickOutside = (ref: any, handler: () => void) => {
   useEffect(() => {
@@ -10,9 +10,9 @@ const useOnClickOutside = (ref: any, handler: () => void) => {
       handler();
     };
 
-    document.addEventListener("mousedown", listener);
+    document.addEventListener('mousedown', listener);
     return () => {
-      document.removeEventListener("mousedown", listener);
+      document.removeEventListener('mousedown', listener);
     };
   }, [ref, handler]);
 };
