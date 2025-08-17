@@ -1,31 +1,31 @@
 import { motion } from 'framer-motion';
 import { Icon } from '@iconify/react';
-import { 
-  Card, 
-  CardBody, 
-  CardHeader, 
-  Table, 
-  TableHeader, 
-  TableColumn, 
-  TableBody, 
-  TableRow, 
-  TableCell, 
-  Button, 
-  Input, 
-  Dropdown, 
-  DropdownTrigger, 
-  DropdownMenu, 
-  DropdownItem, 
-  Modal, 
-  ModalContent, 
-  ModalHeader, 
-  ModalBody, 
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+  Button,
+  Input,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
   ModalFooter,
   useDisclosure,
   Chip,
   Pagination,
   Select,
-  SelectItem
+  SelectItem,
 } from '@nextui-org/react';
 import { useState, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
@@ -118,15 +118,16 @@ const Contacts = () => {
 
   // Filter and paginate contacts
   const filteredContacts = useMemo(() => {
-    let filtered = contacts.filter(contact => {
-      const matchesSearch = 
+    const filtered = contacts.filter((contact) => {
+      const matchesSearch =
         contact.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
         contact.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
         contact.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
         contact.company?.toLowerCase().includes(searchQuery.toLowerCase());
-      
-      const matchesStatus = statusFilter === 'all' || contact.status === statusFilter;
-      
+
+      const matchesStatus =
+        statusFilter === 'all' || contact.status === statusFilter;
+
       return matchesSearch && matchesStatus;
     });
 
@@ -162,7 +163,7 @@ const Contacts = () => {
 
   const handleDeleteContact = (contactId: string) => {
     if (confirm('Are you sure you want to delete this contact?')) {
-      setContacts(contacts.filter(c => c.id !== contactId));
+      setContacts(contacts.filter((c) => c.id !== contactId));
       toast.success('Contact deleted successfully');
     }
   };
@@ -170,11 +171,13 @@ const Contacts = () => {
   const onSubmit = (data: ContactFormData) => {
     if (isEditMode && selectedContact) {
       // Edit existing contact
-      setContacts(contacts.map(c => 
-        c.id === selectedContact.id 
-          ? { ...c, ...data, updatedAt: new Date().toISOString() }
-          : c
-      ));
+      setContacts(
+        contacts.map((c) =>
+          c.id === selectedContact.id
+            ? { ...c, ...data, updatedAt: new Date().toISOString() }
+            : c,
+        ),
+      );
       toast.success('Contact updated successfully');
     } else {
       // Add new contact
@@ -187,7 +190,7 @@ const Contacts = () => {
       setContacts([...contacts, newContact]);
       toast.success('Contact added successfully');
     }
-    
+
     onClose();
     reset();
   };
@@ -216,9 +219,11 @@ const Contacts = () => {
       >
         <div>
           <h1 className="text-2xl font-bold text-slate-900">Contacts</h1>
-          <p className="text-slate-600">Manage your contact list and audience</p>
+          <p className="text-slate-600">
+            Manage your contact list and audience
+          </p>
         </div>
-        
+
         <div className="flex gap-3">
           <Button
             variant="bordered"
@@ -248,20 +253,30 @@ const Contacts = () => {
           placeholder="Search contacts..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          startContent={<Icon icon="mdi:magnify" className="w-4 h-4 text-slate-400" />}
+          startContent={
+            <Icon icon="mdi:magnify" className="w-4 h-4 text-slate-400" />
+          }
           className="sm:w-80"
         />
-        
+
         <Select
           placeholder="Filter by status"
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
           className="sm:w-48"
         >
-          <SelectItem key="all" value="all">All Status</SelectItem>
-          <SelectItem key="active" value="active">Active</SelectItem>
-          <SelectItem key="inactive" value="inactive">Inactive</SelectItem>
-          <SelectItem key="unsubscribed" value="unsubscribed">Unsubscribed</SelectItem>
+          <SelectItem key="all" value="all">
+            All Status
+          </SelectItem>
+          <SelectItem key="active" value="active">
+            Active
+          </SelectItem>
+          <SelectItem key="inactive" value="inactive">
+            Inactive
+          </SelectItem>
+          <SelectItem key="unsubscribed" value="unsubscribed">
+            Unsubscribed
+          </SelectItem>
         </Select>
       </motion.div>
 
@@ -285,15 +300,23 @@ const Contacts = () => {
                   onChange={(e) => setRowsPerPage(Number(e.target.value))}
                   className="w-20"
                 >
-                  <SelectItem key="5" value="5">5</SelectItem>
-                  <SelectItem key="10" value="10">10</SelectItem>
-                  <SelectItem key="25" value="25">25</SelectItem>
-                  <SelectItem key="50" value="50">50</SelectItem>
+                  <SelectItem key="5" value="5">
+                    5
+                  </SelectItem>
+                  <SelectItem key="10" value="10">
+                    10
+                  </SelectItem>
+                  <SelectItem key="25" value="25">
+                    25
+                  </SelectItem>
+                  <SelectItem key="50" value="50">
+                    50
+                  </SelectItem>
                 </Select>
               </div>
             </div>
           </CardHeader>
-          
+
           <CardBody>
             <Table aria-label="Contacts table">
               <TableHeader>
@@ -314,7 +337,8 @@ const Contacts = () => {
                           {contact.firstName} {contact.lastName}
                         </div>
                         <div className="text-sm text-slate-500">
-                          Added {new Date(contact.createdAt).toLocaleDateString()}
+                          Added{' '}
+                          {new Date(contact.createdAt).toLocaleDateString()}
                         </div>
                       </div>
                     </TableCell>
@@ -325,12 +349,19 @@ const Contacts = () => {
                       <div className="text-slate-900">{contact.phone}</div>
                     </TableCell>
                     <TableCell>
-                      <div className="text-slate-900">{contact.company || '-'}</div>
+                      <div className="text-slate-900">
+                        {contact.company || '-'}
+                      </div>
                     </TableCell>
                     <TableCell>
                       <div className="flex flex-wrap gap-1">
                         {contact.tags.map((tag, index) => (
-                          <Chip key={index} size="sm" variant="flat" className="text-xs">
+                          <Chip
+                            key={index}
+                            size="sm"
+                            variant="flat"
+                            className="text-xs"
+                          >
                             {tag}
                           </Chip>
                         ))}
@@ -354,13 +385,18 @@ const Contacts = () => {
                             size="sm"
                             className="text-slate-400 hover:text-slate-600"
                           >
-                            <Icon icon="mdi:dots-vertical" className="w-4 h-4" />
+                            <Icon
+                              icon="mdi:dots-vertical"
+                              className="w-4 h-4"
+                            />
                           </Button>
                         </DropdownTrigger>
                         <DropdownMenu aria-label="Contact actions">
                           <DropdownItem
                             key="edit"
-                            startContent={<Icon icon="mdi:pencil" className="w-4 h-4" />}
+                            startContent={
+                              <Icon icon="mdi:pencil" className="w-4 h-4" />
+                            }
                             onClick={() => handleEditContact(contact)}
                           >
                             Edit
@@ -368,7 +404,9 @@ const Contacts = () => {
                           <DropdownItem
                             key="delete"
                             color="danger"
-                            startContent={<Icon icon="mdi:delete" className="w-4 h-4" />}
+                            startContent={
+                              <Icon icon="mdi:delete" className="w-4 h-4" />
+                            }
                             onClick={() => handleDeleteContact(contact.id)}
                           >
                             Delete
@@ -380,7 +418,7 @@ const Contacts = () => {
                 ))}
               </TableBody>
             </Table>
-            
+
             {/* Pagination */}
             {pages > 1 && (
               <div className="flex justify-center mt-6">
@@ -405,7 +443,7 @@ const Contacts = () => {
               {isEditMode ? 'Edit Contact' : 'Add New Contact'}
             </h3>
           </ModalHeader>
-          
+
           <ModalBody>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
@@ -417,7 +455,7 @@ const Contacts = () => {
                   isInvalid={!!errors.firstName}
                   errorMessage={errors.firstName?.message}
                 />
-                
+
                 <Input
                   {...register('lastName')}
                   label="Last Name"
@@ -427,7 +465,7 @@ const Contacts = () => {
                   errorMessage={errors.lastName?.message}
                 />
               </div>
-              
+
               <div className="grid md:grid-cols-2 gap-4">
                 <Input
                   {...register('email')}
@@ -438,7 +476,7 @@ const Contacts = () => {
                   isInvalid={!!errors.email}
                   errorMessage={errors.email?.message}
                 />
-                
+
                 <Input
                   {...register('phone')}
                   label="Phone"
@@ -448,14 +486,14 @@ const Contacts = () => {
                   errorMessage={errors.phone?.message}
                 />
               </div>
-              
+
               <Input
                 {...register('company')}
                 label="Company"
                 placeholder="Enter company name (optional)"
                 variant="bordered"
               />
-              
+
               <Input
                 label="Tags"
                 placeholder="Enter tags separated by commas"
@@ -464,12 +502,12 @@ const Contacts = () => {
               />
             </form>
           </ModalBody>
-          
+
           <ModalFooter>
             <Button variant="bordered" onPress={onClose}>
               Cancel
             </Button>
-            <Button color="primary" onPress={handleSubmit(onSubmit)}>
+            <Button color="primary" onClick={handleSubmit(onSubmit)}>
               {isEditMode ? 'Update Contact' : 'Add Contact'}
             </Button>
           </ModalFooter>

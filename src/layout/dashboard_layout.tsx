@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Icon } from '@iconify/react';
@@ -14,7 +15,6 @@ import useOnClickOutside from '@/hooks/useOnClickOutside';
 import { startTransition, useRef } from 'react';
 
 const DashboardLayout = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const navigate = useNavigate();
@@ -86,7 +86,7 @@ const DashboardLayout = () => {
 
       {/* Sidebar */}
       <AnimatePresence>
-        {(isSidebarOpen || isMobileMenuOpen) && (
+        {isMobileMenuOpen && (
           <motion.aside
             ref={sidebarRef}
             initial={{ x: -300 }}
@@ -172,7 +172,7 @@ const DashboardLayout = () => {
       {/* Main content */}
       <div
         className={`transition-all duration-300 ${
-          isSidebarOpen ? 'lg:ml-64' : ''
+          isMobileMenuOpen ? 'lg:ml-64' : ''
         }`}
       >
         {/* Top header */}

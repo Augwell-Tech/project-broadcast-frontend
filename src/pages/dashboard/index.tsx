@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Icon } from '@iconify/react';
-import { Card, CardBody, CardHeader, Button, Progress } from '@nextui-org/react';
+import { Card, CardBody, CardHeader, Progress } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
@@ -148,11 +148,13 @@ const Dashboard = () => {
             </p>
           </div>
         </div>
-        
+
         <div className="grid md:grid-cols-3 gap-4 mt-6">
           <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
             <div className="text-2xl font-bold">24,892</div>
-            <div className="text-blue-100 text-sm">Messages sent this month</div>
+            <div className="text-blue-100 text-sm">
+              Messages sent this month
+            </div>
           </div>
           <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
             <div className="text-2xl font-bold">99.2%</div>
@@ -176,21 +178,30 @@ const Dashboard = () => {
           <Card key={index} className="border border-slate-200">
             <CardBody className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <div className={`w-12 h-12 ${stat.bgColor} rounded-xl flex items-center justify-center`}>
-                  <Icon icon={stat.icon} className={`w-6 h-6 ${stat.color.replace('from-', 'text-').replace(' to-', '')}`} />
+                <div
+                  className={`w-12 h-12 ${stat.bgColor} rounded-xl flex items-center justify-center`}
+                >
+                  <Icon
+                    icon={stat.icon}
+                    className={`w-6 h-6 ${stat.color
+                      .replace('from-', 'text-')
+                      .replace(' to-', '')}`}
+                  />
                 </div>
-                <span className={`text-sm font-medium ${
-                  stat.changeType === 'positive' ? 'text-green-600' : 'text-red-600'
-                }`}>
+                <span
+                  className={`text-sm font-medium ${
+                    stat.changeType === 'positive'
+                      ? 'text-green-600'
+                      : 'text-red-600'
+                  }`}
+                >
                   {stat.change}
                 </span>
               </div>
               <div className="text-2xl font-bold text-slate-900 mb-1">
                 {stat.value}
               </div>
-              <div className="text-slate-600 text-sm">
-                {stat.title}
-              </div>
+              <div className="text-slate-600 text-sm">{stat.title}</div>
             </CardBody>
           </Card>
         ))}
@@ -212,15 +223,15 @@ const Dashboard = () => {
               className="border border-slate-200 hover:shadow-lg transition-all cursor-pointer"
             >
               <CardBody className="p-6 text-center">
-                <div className={`w-16 h-16 bg-gradient-to-r ${action.color} rounded-2xl flex items-center justify-center mx-auto mb-4`}>
+                <div
+                  className={`w-16 h-16 bg-gradient-to-r ${action.color} rounded-2xl flex items-center justify-center mx-auto mb-4`}
+                >
                   <Icon icon={action.icon} className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="font-semibold text-slate-900 mb-2">
                   {action.title}
                 </h3>
-                <p className="text-slate-600 text-sm">
-                  {action.description}
-                </p>
+                <p className="text-slate-600 text-sm">{action.description}</p>
               </CardBody>
             </Card>
           ))}
@@ -237,21 +248,35 @@ const Dashboard = () => {
         >
           <Card className="border border-slate-200">
             <CardHeader className="pb-0">
-              <h3 className="text-lg font-semibold text-slate-900">Recent Activity</h3>
+              <h3 className="text-lg font-semibold text-slate-900">
+                Recent Activity
+              </h3>
             </CardHeader>
             <CardBody>
               <div className="space-y-4">
                 {recentActivity.map((activity, index) => (
-                  <div key={index} className="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 transition-colors">
-                    <div className={`w-10 h-10 ${activity.bgColor} rounded-xl flex items-center justify-center flex-shrink-0`}>
-                      <Icon icon={activity.icon} className={`w-5 h-5 ${activity.color}`} />
+                  <div
+                    key={index}
+                    className="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 transition-colors"
+                  >
+                    <div
+                      className={`w-10 h-10 ${activity.bgColor} rounded-xl flex items-center justify-center flex-shrink-0`}
+                    >
+                      <Icon
+                        icon={activity.icon}
+                        className={`w-5 h-5 ${activity.color}`}
+                      />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between mb-1">
                         <p className="text-sm font-medium text-slate-900 truncate">
                           {activity.title}
                         </p>
-                        <span className={`text-xs px-2 py-1 rounded-full ${getStatusColor(activity.status)}`}>
+                        <span
+                          className={`text-xs px-2 py-1 rounded-full ${getStatusColor(
+                            activity.status,
+                          )}`}
+                        >
                           {activity.status.replace('_', ' ')}
                         </span>
                       </div>
@@ -274,14 +299,20 @@ const Dashboard = () => {
         >
           <Card className="border border-slate-200">
             <CardHeader className="pb-0">
-              <h3 className="text-lg font-semibold text-slate-900">Performance Overview</h3>
+              <h3 className="text-lg font-semibold text-slate-900">
+                Performance Overview
+              </h3>
             </CardHeader>
             <CardBody>
               <div className="space-y-6">
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-slate-700">SMS Delivery Rate</span>
-                    <span className="text-sm font-semibold text-slate-900">99.2%</span>
+                    <span className="text-sm font-medium text-slate-700">
+                      SMS Delivery Rate
+                    </span>
+                    <span className="text-sm font-semibold text-slate-900">
+                      99.2%
+                    </span>
                   </div>
                   <Progress
                     value={99.2}
@@ -290,11 +321,15 @@ const Dashboard = () => {
                     size="sm"
                   />
                 </div>
-                
+
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-slate-700">WhatsApp Delivery Rate</span>
-                    <span className="text-sm font-semibold text-slate-900">98.7%</span>
+                    <span className="text-sm font-medium text-slate-700">
+                      WhatsApp Delivery Rate
+                    </span>
+                    <span className="text-sm font-semibold text-slate-900">
+                      98.7%
+                    </span>
                   </div>
                   <Progress
                     value={98.7}
@@ -303,11 +338,15 @@ const Dashboard = () => {
                     size="sm"
                   />
                 </div>
-                
+
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-slate-700">Email Open Rate</span>
-                    <span className="text-sm font-semibold text-slate-900">24.3%</span>
+                    <span className="text-sm font-medium text-slate-700">
+                      Email Open Rate
+                    </span>
+                    <span className="text-sm font-semibold text-slate-900">
+                      24.3%
+                    </span>
                   </div>
                   <Progress
                     value={24.3}
@@ -316,11 +355,15 @@ const Dashboard = () => {
                     size="sm"
                   />
                 </div>
-                
+
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-slate-700">Click Rate</span>
-                    <span className="text-sm font-semibold text-slate-900">3.8%</span>
+                    <span className="text-sm font-medium text-slate-700">
+                      Click Rate
+                    </span>
+                    <span className="text-sm font-semibold text-slate-900">
+                      3.8%
+                    </span>
                   </div>
                   <Progress
                     value={3.8}
