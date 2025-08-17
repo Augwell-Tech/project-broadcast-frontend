@@ -18,7 +18,7 @@ const Footer = () => {
             </p>
           </div>
           <p className="text-sm">
-            The most efficient omni channel broadcast system
+            Powerful APIs for WhatsApp, SMS, and Email communication
           </p>
           <div className="flex items-center gap-x-3">
             {socials.map((item, index) => (
@@ -112,54 +112,54 @@ const socials = [
 
 const FOOTER_ITEMS = [
   {
-    header: 'Know Us',
+    header: 'APIs',
     links: [
       {
-        title: 'About Us',
-        href: '/about-us',
+        title: 'WhatsApp API',
+        href: '/api/whatsapp',
       },
       {
-        title: 'Our Services',
-        href: '/services',
+        title: 'SMS API',
+        href: '/api/sms',
       },
       {
-        title: 'Explore our Work',
-        href: '/products',
+        title: 'Email API',
+        href: '/api/email',
       },
     ],
   },
   {
-    header: 'Help',
+    header: 'Resources',
     links: [
       {
-        title: 'Contact Us',
-        href: '/support',
+        title: 'Documentation',
+        href: '/docs',
       },
-      // {
-      //   title: "Pricing",
-      //   href: "",
-      // },
+      {
+        title: 'API Reference',
+        href: '/api-reference',
+      },
+      {
+        title: 'SDKs & Libraries',
+        href: '/sdks',
+      },
     ],
   },
-  // {
-  //   header: "Proxy",
-  //   links: [
-  //     {
-  //       title: "About",
-  //       href: "",
-  //     },
-  //     {
-  //       title: "Shop",
-  //       href: "",
-  //     },
-  //     {
-  //       title: "Product",
-  //       href: "",
-  //     },
-  //     {
-  //       title: "Track Order",
-  //       href: "",
-  //     },
-  //   ],
-  // },
+  {
+    header: 'Company',
+    links: [
+      {
+        title: 'About Us',
+        href: '/about',
+      },
+      {
+        title: 'Contact Support',
+        href: '/support',
+      },
+      {
+        title: 'Status Page',
+        href: '/status',
+      },
+    ],
+  },
 ];

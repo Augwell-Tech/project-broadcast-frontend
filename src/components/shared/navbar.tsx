@@ -7,7 +7,7 @@ import {
   NavbarMenu,
   NavbarMenuItem,
 } from '@nextui-org/react';
-import { useState } from 'react';
+import { useState, startTransition } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { CustomButton } from './shared_customs';
 import CustomeDropdownDesktop from './custom-dropdown-desktop';
@@ -17,6 +17,16 @@ export default function NavbarComponent() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navigate = useNavigate();
+
+  const handleNavigation = (path: string) => {
+    if (path.startsWith('/dashboard')) {
+      startTransition(() => {
+        navigate(path);
+      });
+    } else {
+      navigate(path);
+    }
+  };
 
   return (
     <>
@@ -88,16 +98,22 @@ export default function NavbarComponent() {
         <NavbarContent justify="end" className="hidden lg:flex">
           <NavbarItem className=" gap-2 items-center hidden lg:flex">
             <CustomButton
-              onClick={() => navigate('/contact')}
+              onClick={() => handleNavigation('/docs')}
               className="border text-secondary border-secondary "
             >
-              Contact Us
+              Documentation
             </CustomButton>
-            <CustomButton
-              onClick={() => navigate('/contact')}
-              className="bg-secondary text-white"
+            {/* <CustomButton
+              onClick={() => handleNavigation('/login')}
+              className="border text-secondary border-secondary "
             >
               Login
+            </CustomButton> */}
+            <CustomButton
+              onClick={() => handleNavigation('/signup')}
+              className="bg-secondary text-white"
+            >
+              Sign Up Free
             </CustomButton>
           </NavbarItem>
         </NavbarContent>
@@ -108,7 +124,7 @@ export default function NavbarComponent() {
               <CustomMobileDropdown
                 closeMenu={() => setIsMenuOpen(false)}
                 key={index}
-                item={item}
+                item={{ ...item, subItems: item.subitems }}
               />
             ) : (
               <NavbarMenuItem key={`${item}-${index}`}>
@@ -130,19 +146,28 @@ export default function NavbarComponent() {
           )}
           <div className="flex md:gap-x-4 flex-col gap-4">
             <CustomButton
-              onClick={() => navigate('/contact')}
+              onClick={() => handleNavigation('/docs')}
               className="border text-secondary border-secondary "
             >
-              Contact Us
+              Documentation
             </CustomButton>
+            {/* <CustomButton
+              onClick={() => {
+                handleNavigation('/login');
+                setIsMenuOpen(false);
+              }}
+              className="border text-secondary border-secondary "
+            >
+              Login
+            </CustomButton> */}
             <CustomButton
               onClick={() => {
-                navigate('/contact');
+                handleNavigation('/signup');
                 setIsMenuOpen(false);
               }}
               className="bg-secondary text-white"
             >
-              Login
+              Sign Up Free
             </CustomButton>
           </div>
         </NavbarMenu>
@@ -152,28 +177,52 @@ export default function NavbarComponent() {
 }
 
 const menuItems = [
-  // {
-  //   link: '/',
-  //   title: 'Home',
-  // },
   {
-    link: '/products',
-    title: 'Products',
-    subitems: [],
+    link: '/',
+    title: 'Home',
   },
   {
-    link: '/solution',
-    title: 'Solution',
+    link: '/api',
+    title: 'APIs',
+    subitems: [
+      {
+        title: 'WhatsApp API',
+        link: '/api/whatsapp',
+        icon: 'mdi:whatsapp',
+        description: 'Send WhatsApp messages',
+      },
+      {
+        title: 'SMS API',
+        link: '/api/sms',
+        icon: 'mdi:message-text',
+        description: 'Send SMS messages',
+      },
+      {
+        title: 'Email API',
+        link: '/api/email',
+        icon: 'mdi:email',
+        description: 'Send emails',
+      },
+    ],
+  },
+  {
+    link: '/web-interface',
+    title: 'Web Interface',
     subitems: [],
   },
   {
     link: '/pricing',
     title: 'Pricing',
-    subitems: [],
+    // subitems: [],
   },
   {
-    link: '/resources',
-    title: 'Resources',
-    subitems: [],
+    link: '/docs',
+    title: 'Documentation',
+    // subitems: [],
+  },
+  {
+    link: '/support',
+    title: 'Support',
+    // subitems: [],
   },
 ];
